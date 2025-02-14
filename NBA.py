@@ -1,4 +1,4 @@
-
+1
 import sqlite3
 
 # Conectar a la base de datos
@@ -63,9 +63,9 @@ cursor.execute('''
 ''')
 
 # CRUD: Insertar equipo
-def insertar_equipo(nombre, ciudad, arena, anyo):
-    cursor.execute("INSERT INTO equipos (nombre, ciudad, arena, anyo_de_fundacion) VALUES (?, ?, ?, ?)",
-                   (nombre, ciudad, arena, anyo))
+def insertar_equipo(id_equipo, nombre, ciudad, arena, anyo):
+    cursor.execute("INSERT INTO equipos (id_equipo, nombre, ciudad, arena, anyo_de_fundacion) VALUES (?, ?, ?, ?, ?)",
+                   (id_equipo, nombre, ciudad, arena, anyo))
     conexion.commit()
 
 # CRUD: Listar equipos
@@ -86,9 +86,9 @@ def eliminar_equipo(id_equipo):
     conexion.commit()
 
     # CRUD para jugadores
-def insertar_jugador(nombre, apellido, id_equipo, posicion, altura, peso, fecha):
-    cursor.execute("INSERT INTO jugadores (nombre, apellido, id_equipo, posicion, altura, peso, fecha_de_nacimiento) VALUES (?, ?, ?, ?, ?, ?, ?)",
-                   (nombre, apellido, id_equipo, posicion, altura, peso, fecha))
+def insertar_jugador(id_jugador, nombre, apellido, id_equipo, posicion, altura, peso, fecha):
+    cursor.execute("INSERT INTO jugadores (id_jugador, nombre, apellido, id_equipo, posicion, altura, peso, fecha_de_nacimiento) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                   (id_jugador, nombre, apellido, id_equipo, posicion, altura, peso, fecha))
     conexion.commit()
 
 def listar_jugadores():
@@ -106,9 +106,9 @@ def eliminar_jugador(id_jugador):
     conexion.commit()
 
     # CRUD para partidos
-def insertar_partido(fecha, id_local, id_visitante, puntuacion_local, puntuacion_visitante):
-    cursor.execute("INSERT INTO partidos (fecha, id_equipo_local, id_equipo_visitante, puntuacion_local, puntuacion_visitante) VALUES (?, ?, ?, ?, ?)",
-                   (fecha, id_local, id_visitante, puntuacion_local, puntuacion_visitante))
+def insertar_partido(id_partido, fecha, id_local, id_visitante, puntuacion_local, puntuacion_visitante):
+    cursor.execute("INSERT INTO partidos (id_partido, fecha, id_equipo_local, id_equipo_visitante, puntuacion_local, puntuacion_visitante) VALUES (?, ?, ?, ?, ?, ?)",
+                   (id_partido, fecha, id_local, id_visitante, puntuacion_local, puntuacion_visitante))
     conexion.commit()
 
 def listar_partidos():
@@ -126,9 +126,9 @@ def eliminar_partido(id_partido):
     conexion.commit()
 
 # CRUD para estadísticas
-def insertar_estadistica(id_jugador, id_partido, puntos, rebotes, asistencias, robos, bloqueos, minutos):
-    cursor.execute("INSERT INTO estadisticas (id_jugador, id_partido, puntos, rebotes, asistencias, robos, bloqueos, minutos_jugados) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-                   (id_jugador, id_partido, puntos, rebotes, asistencias, robos, bloqueos, minutos))
+def insertar_estadistica(stat_id,id_jugador, id_partido, puntos, rebotes, asistencias, robos, bloqueos, minutos):
+    cursor.execute("INSERT INTO estadisticas (stat_id, id_jugador, id_partido, puntos, rebotes, asistencias, robos, bloqueos, minutos_jugados) VALUES (? ,?, ?, ?, ?, ?, ?, ?, ?)",
+                   (stat_id,id_jugador, id_partido, puntos, rebotes, asistencias, robos, bloqueos, minutos))
     conexion.commit()
 
 def listar_estadisticas():
@@ -187,14 +187,16 @@ def menu():
         opcion = input("Seleccione una opción: ")
 
         if opcion == "1":
+            id_equipo= input("Id Equipo: ")
             nombre = input("Nombre: ")
             ciudad = input("Ciudad: ")
             arena = input("Arena: ")
             anyo = input("Año de fundación: ")
-            insertar_equipo(nombre, ciudad, arena, anyo)
+            insertar_equipo(id_equipo, nombre, ciudad, arena, anyo)
         elif opcion == "2":
             listar_equipos()
         elif opcion == "3":
+            id_jugador=input("Id Jugador: ")
             nombre = input("Nombre: ")
             apellido = input("Apellido: ")
             id_equipo = input("ID Equipo: ")
@@ -202,19 +204,21 @@ def menu():
             altura = input("Altura: ")
             peso = input("Peso: ")
             fecha = input("Fecha de nacimiento (YYYY-MM-DD): ")
-            insertar_jugador(nombre, apellido, id_equipo, posicion, altura, peso, fecha)
+            insertar_jugador(id_jugador,nombre, apellido, id_equipo, posicion, altura, peso, fecha)
         elif opcion == "4":
             listar_jugadores()
         elif opcion == "5":
+            id_partido= input("ID Partido: ")
             fecha = input("Fecha (YYYY-MM-DD): ")
             id_local = input("ID Equipo Local: ")
             id_visitante = input("ID Equipo Visitante: ")
             puntuacion_local = input("Puntuación Local: ")
             puntuacion_visitante = input("Puntuación Visitante: ")
-            insertar_partido(fecha, id_local, id_visitante, puntuacion_local, puntuacion_visitante)
+            insertar_partido(id_partido, fecha, id_local, id_visitante, puntuacion_local, puntuacion_visitante)
         elif opcion == "6":
             listar_partidos()
         elif opcion == "7":
+            stat_id= input("ID estadistica: ")
             id_jugador = input("ID Jugador: ")
             id_partido = input("ID Partido: ")
             puntos = input("Puntos: ")
@@ -223,7 +227,7 @@ def menu():
             robos = input("Robos: ")
             bloqueos = input("Bloqueos: ")
             minutos = input("Minutos jugados: ")
-            insertar_estadistica(id_jugador, id_partido, puntos, rebotes, asistencias, robos, bloqueos, minutos)
+            insertar_estadistica(stat_id, id_jugador, id_partido, puntos, rebotes, asistencias, robos, bloqueos, minutos)
         elif opcion == "8":
             listar_estadisticas()
         elif opcion == "9":
